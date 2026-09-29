@@ -1,0 +1,159 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Digital Proofing &amp; Client Approval - CL Prints &amp; Photography
+    </title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div id="menu">
+        <img src="../assets/logo.png" alt="Logo" />
+        <div class="title">CL Prints &amp;<br />Photography</div>
+
+        <a href="../home.html" data-page="home">Home</a>
+
+        <div class="group">Front desk</div>
+        <a href="../modules/m5-intake.html" data-page="m5"
+          >05 Service Request &amp; Order Intake</a
+        >
+        <a href="../modules/m2-booking.html" data-page="m2"
+          >02 Event Booking Calendar &amp; Equipment Availability</a
+        >
+
+        <div class="group">Production</div>
+        <a href="../modules/m3-workflow.html" data-page="m3"
+          >03 Service Workflow Progression &amp; Order Tracking</a
+        >
+        <a href="../modules/m7-proofing.html" data-page="m7"
+          >07 Digital Proofing &amp; Client Approval</a
+        >
+        <a href="../modules/m8-tasks.html" data-page="m8"
+          >08 Task Assignment &amp; Staff Workload</a
+        >
+        <a href="../modules/m6-inventory.html" data-page="m6"
+          >06 Production Inventory Management</a
+        >
+
+        <div class="group">Releasing</div>
+        <a href="../modules/m9-release.html" data-page="m9"
+          >09 Release &amp; Dispatch Labeling</a
+        >
+        <a href="../modules/m12-gallery.html" data-page="m12"
+          >12 Event Photo Gallery &amp; Client Retrieval</a
+        >
+
+        <div class="group">Management</div>
+        <a href="../modules/m10-reviews.html" data-page="m10"
+          >10 Internal Feedback &amp; Service Review</a
+        >
+        <a href="../modules/m11-finance.html" data-page="m11"
+          >11 Expense &amp; Financial Reporting</a
+        >
+
+        <div class="group">Admin</div>
+        <a href="../modules/m4-users.html" data-page="m4"
+          >04 User Management &amp; Access Control</a
+        >
+        <a href="../modules/m1-audit.html" data-page="m1"
+          >01 System Auditing &amp; Activity Logs</a
+        >
+
+        <div id="signedInBox"></div>
+        <a
+          href="#"
+          onclick="
+            signOut();
+            return false;
+          "
+          >Sign out</a
+        >
+      </div>
+      <div id="main">
+        <h1>Digital Proofing &amp; Client Approval</h1>
+        <p class="grey">
+          Send the design to the customer and wait for approval.
+        </p>
+
+        <div class="row">
+          <div class="box">
+            <h2 id="proofTitle">Pick an order</h2>
+            <p id="proofStatus"></p>
+
+            <div id="proofArea"><p>No design sent yet.</p></div>
+
+            <p class="small grey" id="proofInfo"></p>
+
+            <div id="uploadArea">
+              <div id="upError" class="msg bad hide"></div>
+
+              <label for="pictureBox">Choose a design picture</label>
+              <input type="file" id="pictureBox" accept="image/*" />
+
+              <label for="noteBox">What changed in this version</label>
+              <input type="text" id="noteBox" />
+
+              <button onclick="sendDraft()">Send this draft</button>
+              <button class="green" onclick="markApproved()">
+                Mark approved
+              </button>
+              <button class="red" onclick="removeNewest()">
+                Remove newest
+              </button>
+            </div>
+          </div>
+
+          <div class="box" style="max-width: 340px">
+            <h2>What the customer said</h2>
+            <p class="small grey">
+              Messages and change requests sent from the
+              <a href="../client.html">customer page</a> for this order.
+            </p>
+            <div id="customerSaid"></div>
+
+            <h2 style="margin-top: 18px">Orders</h2>
+            <label for="m7OrderSearch">Search orders</label>
+            <input
+              type="text"
+              id="m7OrderSearch"
+              oninput="showOrderList()"
+              placeholder="type an order number, customer or status"
+            />
+            <button class="grey" onclick="clearM7Search()">Clear the search</button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Order</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="orderList"></tbody>
+            </table>
+
+            <h2 style="margin-top: 18px">Older versions</h2>
+            <p class="small grey">Newest at the top.</p>
+            <label for="m7VersionSearch">Search versions</label>
+            <input
+              type="text"
+              id="m7VersionSearch"
+              oninput="showVersionsOnly()"
+              placeholder="type words from the note or a name"
+            />
+            <button class="small" onclick="findVersion()">Open newest match</button>
+            <p class="small grey" id="m7FindResult"></p>
+            <table>
+              <tbody id="versionList"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/db.js"></script>
+    <script src="../js/seed.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/m7-proofing.js"></script>
+  </body>
+</html>

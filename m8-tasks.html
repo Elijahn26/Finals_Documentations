@@ -1,0 +1,180 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Task Assignment &amp; Staff Workload - CL Prints &amp; Photography
+    </title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div id="menu">
+        <img src="../assets/logo.png" alt="Logo" />
+        <div class="title">CL Prints &amp;<br />Photography</div>
+
+        <a href="../home.html" data-page="home">Home</a>
+
+        <div class="group">Front desk</div>
+        <a href="../modules/m5-intake.html" data-page="m5"
+          >05 Service Request &amp; Order Intake</a
+        >
+        <a href="../modules/m2-booking.html" data-page="m2"
+          >02 Event Booking Calendar &amp; Equipment Availability</a
+        >
+
+        <div class="group">Production</div>
+        <a href="../modules/m3-workflow.html" data-page="m3"
+          >03 Service Workflow Progression &amp; Order Tracking</a
+        >
+        <a href="../modules/m7-proofing.html" data-page="m7"
+          >07 Digital Proofing &amp; Client Approval</a
+        >
+        <a href="../modules/m8-tasks.html" data-page="m8"
+          >08 Task Assignment &amp; Staff Workload</a
+        >
+        <a href="../modules/m6-inventory.html" data-page="m6"
+          >06 Production Inventory Management</a
+        >
+
+        <div class="group">Releasing</div>
+        <a href="../modules/m9-release.html" data-page="m9"
+          >09 Release &amp; Dispatch Labeling</a
+        >
+        <a href="../modules/m12-gallery.html" data-page="m12"
+          >12 Event Photo Gallery &amp; Client Retrieval</a
+        >
+
+        <div class="group">Management</div>
+        <a href="../modules/m10-reviews.html" data-page="m10"
+          >10 Internal Feedback &amp; Service Review</a
+        >
+        <a href="../modules/m11-finance.html" data-page="m11"
+          >11 Expense &amp; Financial Reporting</a
+        >
+
+        <div class="group">Admin</div>
+        <a href="../modules/m4-users.html" data-page="m4"
+          >04 User Management &amp; Access Control</a
+        >
+        <a href="../modules/m1-audit.html" data-page="m1"
+          >01 System Auditing &amp; Activity Logs</a
+        >
+
+        <div id="signedInBox"></div>
+        <a
+          href="#"
+          onclick="
+            signOut();
+            return false;
+          "
+          >Sign out</a
+        >
+      </div>
+      <div id="main">
+        <h1>Task Assignment &amp; Staff Workload</h1>
+        <p class="grey">Who is doing what, and who has the most work.</p>
+
+        <div class="cards">
+          <div class="card">
+            <div class="label">Open tasks</div>
+            <div class="big" id="cardOpen">0</div>
+          </div>
+          <div class="card">
+            <div class="label">Late tasks</div>
+            <div class="big" id="cardLate">0</div>
+          </div>
+          <div class="card">
+            <div class="label">Least busy person</div>
+            <div class="big" id="cardFree" style="font-size: 16px">-</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="box">
+            <h2>How busy everyone is</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Staff</th>
+                  <th class="right">Open</th>
+                  <th class="right">Late</th>
+                  <th>Next in their queue</th>
+                </tr>
+              </thead>
+              <tbody id="staffRows"></tbody>
+            </table>
+
+            <h2 style="margin-top: 20px">One person's to-do list</h2>
+            <p class="grey small">
+              Click a name above to see just their jobs, in the order the queue
+              hands them out.
+            </p>
+            <div id="todoArea"></div>
+
+            <h2 style="margin-top: 20px">All tasks</h2>
+            <label for="m8Search">Search tasks</label>
+            <input
+              type="text"
+              id="m8Search"
+              oninput="showTaskTable(buildQueues())"
+              placeholder="type a task, person, job number, priority or status"
+            />
+            <button class="grey" onclick="clearM8Search()">Clear the search</button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Task</th>
+                  <th>Given to</th>
+                  <th>Job</th>
+                  <th>Priority</th>
+                  <th>Due</th>
+                  <th>Status</th>
+                  <th>Place in queue</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="taskRows"></tbody>
+            </table>
+          </div>
+
+          <div class="box" style="max-width: 340px">
+            <h2>Give out a task</h2>
+
+            <div id="taskError" class="msg bad hide"></div>
+
+            <label for="tJob">Which job</label>
+            <select id="tJob"></select>
+
+            <label for="tWhat">What needs doing</label>
+            <textarea id="tWhat"></textarea>
+
+            <label for="tPriority">How urgent</label>
+            <select id="tPriority">
+              <option>Urgent</option>
+              <option>High</option>
+              <option selected>Medium</option>
+              <option>Low</option>
+            </select>
+
+            <label for="tDue">Finish by</label>
+            <input type="date" id="tDue" />
+
+            <label for="tStaff">Give it to</label>
+            <select id="tStaff"></select>
+
+            <button onclick="giveTask()">Give out task</button>
+
+            <h2 style="margin-top: 20px">Late tasks</h2>
+            <div id="lateArea"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/db.js"></script>
+    <script src="../js/seed.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/m8-tasks.js"></script>
+  </body>
+</html>

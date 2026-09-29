@@ -1,0 +1,215 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Internal Feedback &amp; Service Review - CL Prints &amp; Photography
+    </title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div id="menu">
+        <img src="../assets/logo.png" alt="Logo" />
+        <div class="title">CL Prints &amp;<br />Photography</div>
+
+        <a href="../home.html" data-page="home">Home</a>
+
+        <div class="group">Front desk</div>
+        <a href="../modules/m5-intake.html" data-page="m5"
+          >05 Service Request &amp; Order Intake</a
+        >
+        <a href="../modules/m2-booking.html" data-page="m2"
+          >02 Event Booking Calendar &amp; Equipment Availability</a
+        >
+
+        <div class="group">Production</div>
+        <a href="../modules/m3-workflow.html" data-page="m3"
+          >03 Service Workflow Progression &amp; Order Tracking</a
+        >
+        <a href="../modules/m7-proofing.html" data-page="m7"
+          >07 Digital Proofing &amp; Client Approval</a
+        >
+        <a href="../modules/m8-tasks.html" data-page="m8"
+          >08 Task Assignment &amp; Staff Workload</a
+        >
+        <a href="../modules/m6-inventory.html" data-page="m6"
+          >06 Production Inventory Management</a
+        >
+
+        <div class="group">Releasing</div>
+        <a href="../modules/m9-release.html" data-page="m9"
+          >09 Release &amp; Dispatch Labeling</a
+        >
+        <a href="../modules/m12-gallery.html" data-page="m12"
+          >12 Event Photo Gallery &amp; Client Retrieval</a
+        >
+
+        <div class="group">Management</div>
+        <a href="../modules/m10-reviews.html" data-page="m10"
+          >10 Internal Feedback &amp; Service Review</a
+        >
+        <a href="../modules/m11-finance.html" data-page="m11"
+          >11 Expense &amp; Financial Reporting</a
+        >
+
+        <div class="group">Admin</div>
+        <a href="../modules/m4-users.html" data-page="m4"
+          >04 User Management &amp; Access Control</a
+        >
+        <a href="../modules/m1-audit.html" data-page="m1"
+          >01 System Auditing &amp; Activity Logs</a
+        >
+
+        <div id="signedInBox"></div>
+        <a
+          href="#"
+          onclick="
+            signOut();
+            return false;
+          "
+          >Sign out</a
+        >
+      </div>
+      <div id="main">
+        <h1>Internal Feedback &amp; Service Review</h1>
+        <p class="grey">
+          The owner scores finished jobs. Customers do not fill this in.
+        </p>
+
+        <div class="row">
+          <div class="box">
+            <h2>Score a finished job</h2>
+
+            <div id="reviewError" class="msg bad hide"></div>
+            <div id="reviewDone" class="msg good hide"></div>
+
+            <label for="rOrder">Which job</label>
+            <select id="rOrder"></select>
+
+            <label for="rSpeed">How fast was it finished</label>
+            <select id="rSpeed">
+              <option value="5">5 - Very fast</option>
+              <option value="4" selected>4 - Good</option>
+              <option value="3">3 - Okay</option>
+              <option value="2">2 - Slow</option>
+              <option value="1">1 - Very slow</option>
+            </select>
+
+            <label for="rQuality">How good was the printing</label>
+            <select id="rQuality">
+              <option value="5">5 - Very good</option>
+              <option value="4" selected>4 - Good</option>
+              <option value="3">3 - Okay</option>
+              <option value="2">2 - Poor</option>
+              <option value="1">1 - Very poor</option>
+            </select>
+
+            <label for="rStaff">How well did the staff handle it</label>
+            <select id="rStaff">
+              <option value="5">5 - Very good</option>
+              <option value="4" selected>4 - Good</option>
+              <option value="3">3 - Okay</option>
+              <option value="2">2 - Poor</option>
+              <option value="1">1 - Very poor</option>
+            </select>
+
+            <label for="rNotes">Notes</label>
+            <textarea id="rNotes"></textarea>
+
+            <button onclick="saveReview()">Save review</button>
+          </div>
+
+          <div class="box" style="max-width: 340px">
+            <h2>Averages, worst first</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Part</th>
+                  <th class="right">Average</th>
+                </tr>
+              </thead>
+              <tbody id="averageRows"></tbody>
+            </table>
+
+            <h2 style="margin-top: 18px">By service</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th class="right">Average</th>
+                </tr>
+              </thead>
+              <tbody id="serviceRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="box">
+          <h2>Reviews written by staff</h2>
+
+          <label for="remarkFilter">Show only this kind of service</label>
+          <select id="remarkFilter" onchange="showReviewTable()"></select>
+
+          <label for="m10Search">Search reviews and messages</label>
+          <input
+            type="text"
+            id="m10Search"
+            oninput="showReviewTable(); showCustomerMessages()"
+            placeholder="type an order number, customer or words from a note"
+          />
+
+          <label for="m10MinScore">Lowest score to show</label>
+          <select id="m10MinScore"
+                  onchange="showReviewTable(); showCustomerMessages()">
+            <option value="0">Any score</option>
+            <option value="2">2 and up</option>
+            <option value="3">3 and up</option>
+            <option value="4">4 and up</option>
+            <option value="5">5 only</option>
+          </select>
+          <button class="grey" onclick="clearM10Search()">Clear the search</button>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Customer</th>
+                <th>Service</th>
+                <th class="right">Speed</th>
+                <th class="right">Quality</th>
+                <th class="right">Staff</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody id="reviewRows"></tbody>
+          </table>
+        </div>
+
+        <div class="box">
+          <h2>Messages from customers</h2>
+          <p class="small grey">
+            Sent by customers from the customer page using their code.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>When</th>
+                <th>Job</th>
+                <th>Customer</th>
+                <th class="right">Score</th>
+                <th>Message</th>
+              </tr>
+            </thead>
+            <tbody id="feedbackRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/db.js"></script>
+    <script src="../js/seed.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/m10-reviews.js"></script>
+  </body>
+</html>

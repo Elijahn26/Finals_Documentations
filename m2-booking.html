@@ -1,0 +1,251 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Event Booking Calendar &amp; Equipment Availability - CL Prints &amp;
+      Photography
+    </title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div id="menu">
+        <img src="../assets/logo.png" alt="Logo" />
+        <div class="title">CL Prints &amp;<br />Photography</div>
+
+        <a href="../home.html" data-page="home">Home</a>
+
+        <div class="group">Front desk</div>
+        <a href="../modules/m5-intake.html" data-page="m5"
+          >05 Service Request &amp; Order Intake</a
+        >
+        <a href="../modules/m2-booking.html" data-page="m2"
+          >02 Event Booking Calendar &amp; Equipment Availability</a
+        >
+
+        <div class="group">Production</div>
+        <a href="../modules/m3-workflow.html" data-page="m3"
+          >03 Service Workflow Progression &amp; Order Tracking</a
+        >
+        <a href="../modules/m7-proofing.html" data-page="m7"
+          >07 Digital Proofing &amp; Client Approval</a
+        >
+        <a href="../modules/m8-tasks.html" data-page="m8"
+          >08 Task Assignment &amp; Staff Workload</a
+        >
+        <a href="../modules/m6-inventory.html" data-page="m6"
+          >06 Production Inventory Management</a
+        >
+
+        <div class="group">Releasing</div>
+        <a href="../modules/m9-release.html" data-page="m9"
+          >09 Release &amp; Dispatch Labeling</a
+        >
+        <a href="../modules/m12-gallery.html" data-page="m12"
+          >12 Event Photo Gallery &amp; Client Retrieval</a
+        >
+
+        <div class="group">Management</div>
+        <a href="../modules/m10-reviews.html" data-page="m10"
+          >10 Internal Feedback &amp; Service Review</a
+        >
+        <a href="../modules/m11-finance.html" data-page="m11"
+          >11 Expense &amp; Financial Reporting</a
+        >
+
+        <div class="group">Admin</div>
+        <a href="../modules/m4-users.html" data-page="m4"
+          >04 User Management &amp; Access Control</a
+        >
+        <a href="../modules/m1-audit.html" data-page="m1"
+          >01 System Auditing &amp; Activity Logs</a
+        >
+
+        <div id="signedInBox"></div>
+        <a
+          href="#"
+          onclick="
+            signOut();
+            return false;
+          "
+          >Sign out</a
+        >
+      </div>
+      <div id="main">
+        <h1>Event Booking Calendar &amp; Equipment Availability</h1>
+        <p class="grey">Events, and the equipment they use on each day.</p>
+
+        <div class="row">
+          <div class="box">
+            <h2 id="monthName"></h2>
+            <button class="small grey" onclick="changeMonth(-1)">
+              Previous
+            </button>
+            <button class="small grey" onclick="changeMonth(1)">Next</button>
+
+            <table class="calendar" style="margin-top: 10px">
+              <thead>
+                <tr>
+                  <th>Sun</th>
+                  <th>Mon</th>
+                  <th>Tue</th>
+                  <th>Wed</th>
+                  <th>Thu</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                </tr>
+              </thead>
+              <tbody id="calendarBody"></tbody>
+            </table>
+          </div>
+
+          <div class="box" style="max-width: 340px">
+            <h2 id="dayTitle">Pick a day</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Equipment</th>
+                  <th class="right">Owned</th>
+                  <th class="right">Out</th>
+                  <th class="right">Free</th>
+                </tr>
+              </thead>
+              <tbody id="freeRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="box">
+            <h2>Book an event</h2>
+            <div id="bookError" class="msg bad hide"></div>
+            <div id="bookDone" class="msg good hide"></div>
+
+            <label for="bClient">Customer name</label>
+            <input type="text" id="bClient" />
+
+            <label for="bPhone">Phone number</label>
+            <input type="text" id="bPhone" />
+
+            <label for="bKind">Kind of event</label>
+            <select id="bKind"></select>
+
+            <label for="bStart">Start date</label>
+            <input type="date" id="bStart" />
+
+            <label for="bEnd">End date</label>
+            <input type="date" id="bEnd" />
+
+            <label for="bPlace">Place</label>
+            <input type="text" id="bPlace" />
+
+            <h3 style="margin-top: 14px">Equipment needed</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th class="right">Owned</th>
+                  <th>How many</th>
+                </tr>
+              </thead>
+              <tbody id="gearRows"></tbody>
+            </table>
+
+            <button onclick="saveBooking()">Check and save booking</button>
+          </div>
+
+          <div class="box">
+            <h2>All bookings</h2>
+            <label for="m2Search">Search bookings</label>
+            <input
+              type="text"
+              id="m2Search"
+              oninput="showBookingList()"
+              placeholder="type an event number, code, customer or status"
+            />
+            <label for="m2FromDay">Show events starting on or after</label>
+            <input type="date" id="m2FromDay" onchange="showBookingList()" />
+            <button class="grey" onclick="clearM2Search()">Clear the search</button>
+            <p class="small grey" id="m2Count"></p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Code</th>
+                  <th>Customer</th>
+                  <th>Dates</th>
+                  <th>Status</th>
+                  <th>Approve or reject</th>
+                </tr>
+              </thead>
+              <tbody id="bookingRows"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="box">
+            <h2>Our equipment</h2>
+            <p class="small grey">
+              Things that go out to an event and come back. Change how many the
+              shop owns, or add something new.
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Equipment</th>
+                  <th class="right">How many owned</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="equipmentRows"></tbody>
+            </table>
+
+            <label for="newGearName">New equipment name</label>
+            <input
+              type="text"
+              id="newGearName"
+              placeholder="for example: Drone"
+            />
+
+            <label for="newGearCount">How many do we own</label>
+            <input type="number" id="newGearCount" value="1" min="1" />
+
+            <button onclick="addEquipment()">Add equipment</button>
+          </div>
+
+          <div class="box">
+            <h2>Kinds of event we offer</h2>
+            <p class="small grey">
+              These fill the <strong>Kind of event</strong> dropdown above.
+            </p>
+            <table>
+              <thead>
+                <tr>
+                  <th>Kind of event</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="typeRows"></tbody>
+            </table>
+
+            <label for="newTypeName">New kind of event</label>
+            <input
+              type="text"
+              id="newTypeName"
+              placeholder="for example: Christening"
+            />
+
+            <button onclick="addEventType()">Add kind of event</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/db.js"></script>
+    <script src="../js/seed.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/m2-booking.js"></script>
+  </body>
+</html>

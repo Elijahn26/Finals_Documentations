@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Sign in - CL Prints &amp; Photography</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div id="loginPage">
+      <div id="loginBox">
+        <img src="assets/logo.png" alt="Logo" />
+        <h1>CL Prints &amp; Photography</h1>
+        <p class="small grey">Printing and Event Services</p>
+
+        <div id="errorBox" class="msg bad hide"></div>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" />
+
+        <button onclick="trySignIn()" style="width: 100%">Sign in</button>
+
+        <p class="small" style="margin-top: 14px">
+          Are you a customer?
+          <a href="client.html">Check your order here</a>
+        </p>
+      </div>
+    </div>
+
+    <script src="js/db.js"></script>
+    <script src="js/seed.js"></script>
+    <script src="js/login.js"></script>
+  </body>
+</html>

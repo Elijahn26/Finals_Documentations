@@ -1,0 +1,205 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Expense &amp; Financial Reporting - CL Prints &amp; Photography
+    </title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div id="menu">
+        <img src="../assets/logo.png" alt="Logo" />
+        <div class="title">CL Prints &amp;<br />Photography</div>
+
+        <a href="../home.html" data-page="home">Home</a>
+
+        <div class="group">Front desk</div>
+        <a href="../modules/m5-intake.html" data-page="m5"
+          >05 Service Request &amp; Order Intake</a
+        >
+        <a href="../modules/m2-booking.html" data-page="m2"
+          >02 Event Booking Calendar &amp; Equipment Availability</a
+        >
+
+        <div class="group">Production</div>
+        <a href="../modules/m3-workflow.html" data-page="m3"
+          >03 Service Workflow Progression &amp; Order Tracking</a
+        >
+        <a href="../modules/m7-proofing.html" data-page="m7"
+          >07 Digital Proofing &amp; Client Approval</a
+        >
+        <a href="../modules/m8-tasks.html" data-page="m8"
+          >08 Task Assignment &amp; Staff Workload</a
+        >
+        <a href="../modules/m6-inventory.html" data-page="m6"
+          >06 Production Inventory Management</a
+        >
+
+        <div class="group">Releasing</div>
+        <a href="../modules/m9-release.html" data-page="m9"
+          >09 Release &amp; Dispatch Labeling</a
+        >
+        <a href="../modules/m12-gallery.html" data-page="m12"
+          >12 Event Photo Gallery &amp; Client Retrieval</a
+        >
+
+        <div class="group">Management</div>
+        <a href="../modules/m10-reviews.html" data-page="m10"
+          >10 Internal Feedback &amp; Service Review</a
+        >
+        <a href="../modules/m11-finance.html" data-page="m11"
+          >11 Expense &amp; Financial Reporting</a
+        >
+
+        <div class="group">Admin</div>
+        <a href="../modules/m4-users.html" data-page="m4"
+          >04 User Management &amp; Access Control</a
+        >
+        <a href="../modules/m1-audit.html" data-page="m1"
+          >01 System Auditing &amp; Activity Logs</a
+        >
+
+        <div id="signedInBox"></div>
+        <a
+          href="#"
+          onclick="
+            signOut();
+            return false;
+          "
+          >Sign out</a
+        >
+      </div>
+      <div id="main">
+        <h1>Expense &amp; Financial Reporting</h1>
+        <p class="grey">What came in, what went out, and what is left.</p>
+
+        <div class="box">
+          <label for="fromDate">From</label>
+          <input type="date" id="fromDate" style="width: 180px" />
+          <label for="toDate">To</label>
+          <input type="date" id="toDate" style="width: 180px" />
+          <button onclick="showReport()">Show</button>
+          <button class="grey" onclick="showAllTime()">All time</button>
+
+          <label for="m11Search">Search income and expenses</label>
+          <input
+            type="text"
+            id="m11Search"
+            oninput="showReport()"
+            placeholder="type an order number, customer, service, kind or note"
+          />
+          <label for="m11Min">Amount from</label>
+          <input type="number" id="m11Min" min="0" style="width: 140px"
+                 oninput="showReport()" />
+          <label for="m11Max">Amount to</label>
+          <input type="number" id="m11Max" min="0" style="width: 140px"
+                 oninput="showReport()" />
+          <button class="grey" onclick="clearM11Search()">Clear the search</button>
+        </div>
+
+        <div class="cards">
+          <div class="card">
+            <div class="label">Money in</div>
+            <div class="big" id="cardIn">0</div>
+          </div>
+          <div class="card">
+            <div class="label">Money out</div>
+            <div class="big" id="cardOut">0</div>
+          </div>
+          <div class="card">
+            <div class="label">Profit</div>
+            <div class="big" id="cardProfit">0</div>
+          </div>
+          <div class="card">
+            <div class="label">Still owed to us</div>
+            <div class="big" id="cardOwed">0</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="box">
+            <h2>Financial overview</h2>
+            <div id="financeChart"></div>
+
+            <h2>Which services earn the most</h2>
+            <div id="serviceChart"></div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th class="right">Orders</th>
+                  <th class="right">Money in</th>
+                </tr>
+              </thead>
+              <tbody id="serviceRows"></tbody>
+            </table>
+
+            <h2 style="margin-top: 20px">Money coming in</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Order</th>
+                  <th>Customer</th>
+                  <th class="right">Paid</th>
+                </tr>
+              </thead>
+              <tbody id="incomeRows"></tbody>
+            </table>
+
+            <h2 style="margin-top: 20px">Money going out</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Kind</th>
+                  <th>Note</th>
+                  <th class="right">Amount</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="expenseRows"></tbody>
+            </table>
+          </div>
+
+          <div class="box" style="max-width: 320px">
+            <h2>Write down an expense</h2>
+
+            <label for="eKind">Kind</label>
+            <select id="eKind">
+              <option>Supplies</option>
+              <option>Utilities</option>
+              <option>Labor</option>
+              <option>Rent</option>
+              <option>Transport</option>
+              <option>Maintenance</option>
+              <option>Other</option>
+            </select>
+
+            <label for="eAmount">How much</label>
+            <input type="number" id="eAmount" min="0" />
+
+            <label for="eDate">Date</label>
+            <input type="date" id="eDate" />
+
+            <label for="eNote">What was it for</label>
+            <textarea id="eNote"></textarea>
+
+            <button onclick="addExpense()">Add expense</button>
+
+            <h2 style="margin-top: 20px">Summary to print</h2>
+            <div id="summaryArea"></div>
+            <button onclick="window.print()">Print summary</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/db.js"></script>
+    <script src="../js/seed.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/m11-finance.js"></script>
+  </body>
+</html>
