@@ -1,0 +1,379 @@
+/* =========================================================
+   style.css - the only stylesheet for the whole system.
+   Colours come from the shop's website:
+   purple #6164AB, and the blue #3B5DAD used with it.
+   ========================================================= */
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #222;
+  background: #f2f2f5;
+}
+
+h1 { font-size: 20px; margin: 0 0 4px 0; }
+h2 { font-size: 16px; margin: 0 0 10px 0; }
+h3 { font-size: 14px; margin: 0 0 6px 0; }
+
+a { color: #6164AB; }
+
+
+/* ---------- the page layout ---------- */
+
+#page {
+  display: flex;
+}
+
+#menu {
+  width: 240px;
+  min-height: 100vh;
+  background: #23232e;
+  padding: 14px 0;
+  flex-shrink: 0;
+}
+
+#menu img {
+  width: 40px;
+  display: block;
+  margin: 0 auto 6px auto;
+}
+
+#menu .title {
+  color: white;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+#menu a {
+  display: block;
+  color: #c8c8d4;
+  text-decoration: none;
+  padding: 7px 14px;
+  font-size: 13px;
+}
+
+#menu a:hover { background: #33333f; color: white; }
+
+#menu a.here {
+  background: #6164AB;
+  color: white;
+  font-weight: bold;
+}
+
+#menu a.hide { display: none; }
+
+#menu .group {
+  color: #77778a;
+  font-size: 11px;
+  padding: 12px 14px 4px 14px;
+  text-transform: uppercase;
+}
+
+#signedInBox {
+  color: #c8c8d4;
+  font-size: 12px;
+  padding: 12px 14px;
+  border-top: 1px solid #3a3a48;
+  margin-top: 14px;
+}
+
+#main {
+  flex-grow: 1;
+  padding: 18px 22px;
+}
+
+
+/* ---------- boxes ---------- */
+
+.box {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 14px;
+  margin-bottom: 16px;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.row > .box { flex: 1; min-width: 280px; }
+
+.note {
+  background: #eeeef8;
+  border-left: 4px solid #6164AB;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+
+/* ---------- small number cards ---------- */
+
+.cards { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 12px 16px;
+  flex: 1;
+  min-width: 150px;
+}
+
+.card .label { font-size: 12px; color: #777; }
+.card .big { font-size: 22px; font-weight: bold; }
+
+
+/* ---------- forms ---------- */
+
+label { display: block; font-size: 12px; color: #555; margin: 8px 0 3px 0; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+.action-check {
+  display: inline-block;
+  margin: 8px 14px 0 0;
+}
+
+.action-check input {
+  width: auto;
+  padding: 0;
+  margin: 0 3px 0 0;
+}
+
+textarea { height: 60px; }
+
+button {
+  background: #6164AB;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover { background: #4e5090; }
+
+button.grey { background: #888; color: white; }
+button.grey:hover { background: #666; color: white; }
+button.red { background: #b3261e; }
+button.red:hover { background: #8d1e17; }
+button.green { background: #2e7d54; }
+button.green:hover { background: #24623f; }
+button.small { padding: 3px 8px; font-size: 12px; margin: 0; }
+
+
+/* ---------- tables ---------- */
+
+/* Tables can get wide, so let them scroll sideways inside their box
+   instead of spilling over the edge. */
+.box table {
+  display: block;
+  overflow-x: auto;
+  white-space: normal;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  background: #eee;
+  text-align: left;
+  padding: 7px 9px;
+  border-bottom: 1px solid #ccc;
+  font-size: 12px;
+}
+
+td { padding: 7px 9px; border-bottom: 1px solid #eee; }
+
+tr:hover td { background: #fafaff; }
+
+.right { text-align: right; }
+.grey { color: #888; }
+.small { font-size: 12px; }
+
+
+/* ---------- labels and messages ---------- */
+
+.tag {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 11px;
+  background: #eee;
+  color: #555;
+}
+
+.tag.good { background: #e2f3e9; color: #2e7d54; }
+.tag.warn { background: #fdf0da; color: #a06a12; }
+.tag.bad  { background: #fbe6e5; color: #b3261e; }
+.tag.blue { background: #e6ecf8; color: #3B5DAD; }
+
+.msg {
+  padding: 9px 12px;
+  border-radius: 4px;
+  margin: 10px 0;
+  font-size: 13px;
+}
+
+.msg.good { background: #e2f3e9; color: #2e7d54; }
+.msg.bad  { background: #fbe6e5; color: #b3261e; }
+.msg.warn { background: #fdf0da; color: #a06a12; }
+.msg.info { background: #e6ecf8; color: #3B5DAD; }
+
+.hide { display: none; }
+
+
+/* ---------- the sign in page ---------- */
+
+#loginPage {
+  background: #6164AB;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#loginBox {
+  background: white;
+  padding: 26px;
+  border-radius: 8px;
+  width: 320px;
+  text-align: center;
+}
+
+#loginBox img { width: 80px; }
+
+#loginBox .hint {
+  font-size: 12px;
+  color: #777;
+  text-align: left;
+  margin-top: 16px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+
+/* ---------- Module 3: the progress steps ---------- */
+
+.steps { display: flex; gap: 6px; flex-wrap: wrap; margin: 10px 0; }
+
+.step {
+  flex: 1;
+  min-width: 90px;
+  text-align: center;
+  padding: 10px 6px;
+  border-radius: 4px;
+  background: #eee;
+  color: #888;
+  font-size: 12px;
+}
+
+.step.done { background: #2e7d54; color: white; }
+.step.now  { background: #6164AB; color: white; font-weight: bold; }
+
+
+/* ---------- Module 2: the calendar ---------- */
+
+table.calendar td {
+  height: 62px;
+  width: 14%;
+  vertical-align: top;
+  border: 1px solid #eee;
+  font-size: 12px;
+}
+
+table.calendar td.today { background: #eeeef8; }
+
+.event {
+  display: block;
+  background: #e6ecf8;
+  color: #3B5DAD;
+  border-radius: 3px;
+  padding: 1px 4px;
+  margin-top: 2px;
+  font-size: 11px;
+  overflow: hidden;
+}
+
+.event.pending   { background: #fdf0da; color: #a06a12; }
+.event.completed { background: #e2f3e9; color: #2e7d54; }
+
+
+/* ---------- Module 7 and 12: pictures ---------- */
+
+.gallery { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.gallery div {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  background: white;
+  text-align: center;
+  font-size: 11px;
+}
+
+.gallery img { width: 150px; height: 110px; object-fit: cover; display: block; }
+
+#proofArea {
+  background: #23232e;
+  padding: 14px;
+  border-radius: 4px;
+  text-align: center;
+  min-height: 200px;
+}
+
+#proofArea img { max-width: 100%; max-height: 340px; }
+#proofArea p { color: #999; }
+
+
+/* ---------- printing ---------- */
+
+@media print {
+  body.print-receipt-mode #menu,
+  body.print-receipt-mode #main > *:not(#receiptBox),
+  body.print-receipt-mode #receiptBox > *:not(#receiptArea),
+  body.print-receipt-mode button,
+  body.print-receipt-mode .note {
+    display: none !important;
+  }
+
+  body.print-receipt-mode #main {
+    padding: 0;
+  }
+
+  body.print-receipt-mode .box {
+    border: none;
+  }
+
+  body.print-receipt-mode #receiptBox {
+    display: block !important;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  body.print-receipt-mode #receiptArea {
+    display: block !important;
+    width: 100%;
+  }
+}

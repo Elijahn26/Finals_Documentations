@@ -1,0 +1,320 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Production Inventory Management - CL Prints &amp; Photography</title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div id="menu">
+        <img src="../assets/logo.png" alt="Logo" />
+        <div class="title">CL Prints &amp;<br />Photography</div>
+
+        <a href="../home.html" data-page="home">Home</a>
+
+        <div class="group">Front desk</div>
+        <a href="../modules/m5-intake.html" data-page="m5"
+          >05 Service Request &amp; Order Intake</a
+        >
+        <a href="../modules/m2-booking.html" data-page="m2"
+          >02 Event Booking Calendar &amp; Equipment Availability</a
+        >
+
+        <div class="group">Production</div>
+        <a href="../modules/m3-workflow.html" data-page="m3"
+          >03 Service Workflow Progression &amp; Order Tracking</a
+        >
+        <a href="../modules/m7-proofing.html" data-page="m7"
+          >07 Digital Proofing &amp; Client Approval</a
+        >
+        <a href="../modules/m8-tasks.html" data-page="m8"
+          >08 Task Assignment &amp; Staff Workload</a
+        >
+        <a href="../modules/m6-inventory.html" data-page="m6"
+          >06 Production Inventory Management</a
+        >
+
+        <div class="group">Releasing</div>
+        <a href="../modules/m9-release.html" data-page="m9"
+          >09 Release &amp; Dispatch Labeling</a
+        >
+        <a href="../modules/m12-gallery.html" data-page="m12"
+          >12 Event Photo Gallery &amp; Client Retrieval</a
+        >
+
+        <div class="group">Management</div>
+        <a href="../modules/m10-reviews.html" data-page="m10"
+          >10 Internal Feedback &amp; Service Review</a
+        >
+        <a href="../modules/m11-finance.html" data-page="m11"
+          >11 Expense &amp; Financial Reporting</a
+        >
+
+        <div class="group">Admin</div>
+        <a href="../modules/m4-users.html" data-page="m4"
+          >04 User Management &amp; Access Control</a
+        >
+        <a href="../modules/m1-audit.html" data-page="m1"
+          >01 System Auditing &amp; Activity Logs</a
+        >
+
+        <div id="signedInBox"></div>
+        <a
+          href="#"
+          onclick="
+            signOut();
+            return false;
+          "
+          >Sign out</a
+        >
+      </div>
+      <div id="main">
+        <h1>Production Inventory Management</h1>
+        <p class="grey">
+          Materials that get used up. Event equipment is in the Booking Calendar
+          because it comes back after the event.
+        </p>
+
+        <div class="cards">
+          <div class="card">
+            <div class="label">Items</div>
+            <div class="big" id="cardItems">0</div>
+          </div>
+          <div class="card">
+            <div class="label">Low on stock</div>
+            <div class="big" id="cardLow">0</div>
+          </div>
+          <div class="card">
+            <div class="label">Stock value</div>
+            <div class="big" id="cardValue">0</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <h2>Materials</h2>
+          <p class="small grey">
+            Click a price or a low-stock number to change it.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Item</th>
+                <th>Unit</th>
+                <th class="right">In stock</th>
+                <th class="right">Low when under</th>
+                <th class="right">Price each</th>
+                <th class="right">Value</th>
+                <th>Level</th>
+                <th>Change stock</th>
+              </tr>
+            </thead>
+            <tbody id="itemRows"></tbody>
+          </table>
+
+          <button onclick="addNewItem()">Add a new material</button>
+        </div>
+
+        <div class="box">
+          <h2>Services</h2>
+          <p class="small grey">
+            Browse service prices and recipe details. Use Edit recipe to open
+            the service editor below.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Service</th>
+                <th>Type</th>
+                <th class="right">Price</th>
+                <th class="right">Materials</th>
+                <th class="right">Choices</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="serviceRows"></tbody>
+          </table>
+        </div>
+
+        <div class="row">
+          <div class="box">
+            <h2>Recipes for each service</h2>
+            <p class="small grey">
+              A recipe says what one unit of the service uses. Order Intake
+              takes these materials out of stock automatically.
+            </p>
+
+            <label for="recipeService">Service</label>
+            <select id="recipeService" onchange="showRecipeEditor()"></select>
+
+            <p class="small grey" id="serviceKind"></p>
+
+            <button class="red" onclick="removeService()">
+              Remove this service
+            </button>
+
+            <table style="margin-top: 10px">
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th class="right">Used per unit</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="recipeRows"></tbody>
+            </table>
+
+            <label for="newRecipeItem">Add a material to this recipe</label>
+            <select id="newRecipeItem"></select>
+
+            <label for="newRecipeQty">How much per unit</label>
+            <input
+              type="number"
+              id="newRecipeQty"
+              value="1"
+              min="0"
+              step="0.1"
+            />
+
+            <button onclick="addToRecipe()">Add to recipe</button>
+
+            <h3 style="margin-top: 18px">Service price</h3>
+            <p class="small grey" id="servicePriceNow"></p>
+            <button class="grey" onclick="changeServicePrice()">
+              Change service price
+            </button>
+
+            <h3 style="margin-top: 20px">Modification choices</h3>
+            <p class="small grey">
+              These are the choices in the
+              <strong>Modification</strong> dropdown on the Order Intake page.
+              Each one can add money, and it can swap which material the recipe
+              uses.
+            </p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Choice</th>
+                  <th class="right">Adds</th>
+                  <th>Swaps material to</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="modRows"></tbody>
+            </table>
+
+            <label for="newModName">New choice name</label>
+            <input
+              type="text"
+              id="newModName"
+              placeholder="for example: Matte finish"
+            />
+
+            <label for="newModPrice">Extra cost for this choice</label>
+            <input
+              type="number"
+              id="newModPrice"
+              value="0"
+              min="0"
+              step="0.5"
+            />
+
+            <button onclick="addModification()">Add this choice</button>
+
+            <h3 style="margin-top: 20px">Material swaps for one choice</h3>
+            <p class="small grey">
+              Every material in the recipe is listed. <strong>With</strong> says
+              what this choice uses instead. Leave it on
+              <strong>none</strong> and the recipe is used as it is. Set the
+              quantity when a choice uses more or less of the material.
+            </p>
+
+            <label for="swapMod">Choice</label>
+            <select id="swapMod" onchange="showSwaps()"></select>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Replace</th>
+                  <th>With</th>
+                  <th class="right">Quantity per unit</th>
+                  <th>Options</th>
+                </tr>
+              </thead>
+              <tbody id="swapRows"></tbody>
+            </table>
+
+            <h3 style="margin-top: 22px">Add a new service</h3>
+            <p class="small grey">
+              A new service starts with no recipe and one plain modification
+              choice. Add its materials and choices afterwards.
+            </p>
+
+            <div id="serviceError" class="msg bad hide"></div>
+
+            <label for="newServiceName">Service name</label>
+            <input
+              type="text"
+              id="newServiceName"
+              placeholder="for example: Canvas Print"
+            />
+
+            <label for="newServiceUnit">How it is counted</label>
+            <select id="newServiceUnit">
+              <option>per piece</option>
+              <option>per sheet</option>
+              <option>per sq ft</option>
+              <option>per page</option>
+              <option>per event</option>
+            </select>
+
+            <label for="newServicePrice">Price for one</label>
+            <input
+              type="number"
+              id="newServicePrice"
+              value="0"
+              min="0"
+              step="0.5"
+            />
+
+            <label class="small">
+              <input type="checkbox" id="newServiceEvent" style="width: auto" />
+              This is an event service (uses the event steps in Job Progress)
+            </label>
+
+            <button onclick="addService()">Add service</button>
+          </div>
+
+          <div class="box" style="max-width: 360px">
+            <h2>Low stock warnings</h2>
+            <div id="lowArea"></div>
+
+            <h2 style="margin-top: 18px" id="moveTitle">
+              Recent stock movements
+            </h2>
+            <div id="moveInfo"></div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Item</th>
+                  <th>In/Out</th>
+                  <th class="right">Qty</th>
+                </tr>
+              </thead>
+              <tbody id="moveRows"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/db.js"></script>
+    <script src="../js/seed.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/m6-inventory.js"></script>
+  </body>
+</html>

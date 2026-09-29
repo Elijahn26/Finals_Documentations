@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      Service Request &amp; Order Intake - CL Prints &amp; Photography
+    </title>
+    <link rel="stylesheet" href="../css/style.css" />
+  </head>
+  <body>
+    <div id="page">
+      <div id="menu">
+        <img src="../assets/logo.png" alt="Logo" />
+        <div class="title">CL Prints &amp;<br />Photography</div>
+
+        <a href="../home.html" data-page="home">Home</a>
+
+        <div class="group">Front desk</div>
+        <a href="../modules/m5-intake.html" data-page="m5"
+          >05 Service Request &amp; Order Intake</a
+        >
+        <a href="../modules/m2-booking.html" data-page="m2"
+          >02 Event Booking Calendar &amp; Equipment Availability</a
+        >
+
+        <div class="group">Production</div>
+        <a href="../modules/m3-workflow.html" data-page="m3"
+          >03 Service Workflow Progression &amp; Order Tracking</a
+        >
+        <a href="../modules/m7-proofing.html" data-page="m7"
+          >07 Digital Proofing &amp; Client Approval</a
+        >
+        <a href="../modules/m8-tasks.html" data-page="m8"
+          >08 Task Assignment &amp; Staff Workload</a
+        >
+        <a href="../modules/m6-inventory.html" data-page="m6"
+          >06 Production Inventory Management</a
+        >
+
+        <div class="group">Releasing</div>
+        <a href="../modules/m9-release.html" data-page="m9"
+          >09 Release &amp; Dispatch Labeling</a
+        >
+        <a href="../modules/m12-gallery.html" data-page="m12"
+          >12 Event Photo Gallery &amp; Client Retrieval</a
+        >
+
+        <div class="group">Management</div>
+        <a href="../modules/m10-reviews.html" data-page="m10"
+          >10 Internal Feedback &amp; Service Review</a
+        >
+        <a href="../modules/m11-finance.html" data-page="m11"
+          >11 Expense &amp; Financial Reporting</a
+        >
+
+        <div class="group">Admin</div>
+        <a href="../modules/m4-users.html" data-page="m4"
+          >04 User Management &amp; Access Control</a
+        >
+        <a href="../modules/m1-audit.html" data-page="m1"
+          >01 System Auditing &amp; Activity Logs</a
+        >
+
+        <div id="signedInBox"></div>
+        <a
+          href="#"
+          onclick="
+            signOut();
+            return false;
+          "
+          >Sign out</a
+        >
+      </div>
+      <div id="main">
+        <h1>Service Request &amp; Order Intake</h1>
+        <p class="grey">
+          Take the order, work out the price, and receive payment.
+        </p>
+
+        <div class="row">
+          <div class="box" style="max-width: 420px">
+            <h2>Step 1 - the customer</h2>
+
+            <label for="clientName">Customer name</label>
+            <input type="text" id="clientName" />
+
+            <label for="clientPhone">Phone number</label>
+            <input type="text" id="clientPhone" />
+
+            <label for="dueBox">Needed by</label>
+            <input type="date" id="dueBox" />
+
+            <label for="notesBox">Notes for the whole order</label>
+            <textarea id="notesBox"></textarea>
+
+            <p class="small grey">
+              This order will be recorded under
+              <strong id="staffLabel"></strong>.
+            </p>
+          </div>
+
+          <div class="box" style="max-width: 420px">
+            <h2>Step 2 - add a service</h2>
+
+            <div id="itemError" class="msg bad hide"></div>
+
+            <label for="serviceBox">Service</label>
+            <select id="serviceBox" onchange="serviceChanged()"></select>
+
+            <label for="modBox">Modification</label>
+            <select id="modBox" onchange="updateItemPrice()"></select>
+
+            <label for="quantityBox">Quantity</label>
+            <input
+              type="number"
+              id="quantityBox"
+              value="1"
+              min="1"
+              oninput="updateItemPrice()"
+            />
+
+            <p id="itemPriceLine" class="small"></p>
+
+            <h3 style="margin-top: 12px">Materials this service will use</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Material</th>
+                  <th class="right">Needed</th>
+                  <th>Stock</th>
+                </tr>
+              </thead>
+              <tbody id="recipeRows"></tbody>
+            </table>
+
+            <button onclick="addItem()">Add this service to the order</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="box">
+            <h2>Step 3 - the order</h2>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Service</th>
+                  <th>Modification</th>
+                  <th class="right">Qty</th>
+                  <th class="right">Each</th>
+                  <th class="right">Total</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="basketRows"></tbody>
+            </table>
+
+            <label for="ownPrice"
+              >Own total price instead (leave empty for the normal total)</label
+            >
+            <input
+              type="number"
+              id="ownPrice"
+              min="0"
+              oninput="updateBasket()"
+            />
+
+            <label for="paidBox">Amount paid now</label>
+            <input
+              type="number"
+              id="paidBox"
+              value="0"
+              min="0"
+              oninput="updateBasket()"
+            />
+
+            <table style="margin-top: 10px">
+              <tbody id="totalRows"></tbody>
+            </table>
+
+            <div id="orderError" class="msg bad hide"></div>
+            <div id="orderDone" class="msg good hide"></div>
+
+            <button onclick="saveOrder()">Save the whole order</button>
+            <button class="grey" onclick="clearBasket()">Empty the list</button>
+          </div>
+        </div>
+
+        <div class="box hide" id="receiptBox">
+          <h2>Receipt</h2>
+          <div id="receiptArea"></div>
+          <button onclick="printReceipt()">Print receipt</button>
+        </div>
+
+        <div class="box">
+          <h2>Orders already taken</h2>
+          <p class="small grey">
+            The <strong>Code</strong> is what the customer types on the
+            <a href="../client.html">customer page</a> to follow their order. It
+            is printed on their receipt.
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Order</th>
+                <th>Code</th>
+                <th>Customer</th>
+                <th>Services</th>
+                <th class="right">Pieces</th>
+                <th class="right">Price</th>
+                <th class="right">Balance</th>
+                <th>Status</th>
+                <th>Payment</th>
+              </tr>
+            </thead>
+            <tbody id="orderRows"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/db.js"></script>
+    <script src="../js/seed.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/m5-intake.js"></script>
+  </body>
+</html>
